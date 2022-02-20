@@ -1,4 +1,5 @@
 import SelectableText from "../Components/SelectableText/SelectableText";
+import { sample_text } from "./sample-text";
 
 export const accordion_config = [
   {
@@ -14,7 +15,7 @@ export const accordion_config = [
           {
             name: "accordion_1-secondary_1-tertiary_1",
             label: "First Child of First Child of First Accordion",
-            content: <SelectableText />,
+            content: <SelectableText data={sample_text} />,
           },
           {
             name: "accordion_1-secondary_1-tertiary_2",

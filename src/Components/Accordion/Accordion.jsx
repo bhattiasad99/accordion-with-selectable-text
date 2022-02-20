@@ -5,6 +5,8 @@ import Accordion_Second from "./Accordion_Second/Accordion_Second";
 import Accordion_Third from "./Accordion_Third/Accordion_Third";
 
 const Accordion = ({ collapsable, config, backgrounds }) => {
+  // I could make a single accordion reusable component, but there was a huge styling difference in Octilearn app between each layer
+  // Hence i made an each component for each layer
   return (
     <React.Fragment>
       {config.map((detail) => (

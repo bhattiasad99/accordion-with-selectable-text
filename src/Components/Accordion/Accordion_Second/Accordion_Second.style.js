@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   margin: 5px;
   border-radius: 5px;
-  overflow: hidden;
 `;
 
 export const Header = styled.button`

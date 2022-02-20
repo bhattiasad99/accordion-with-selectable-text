@@ -20,8 +20,18 @@ export const BuildText = styled.span`
   user-select: none;
 `;
 
-export const BuildTextHoverEffect = styled(BuildText)`
-  &:hover {
-    background: #e0e0e0;
-  }
+export const SentencesContainer = styled.div``;
+
+export const CommentsContainer = styled.button`
+  background-color: #f3f3f3;
+  border: none;
+  padding: 1rem 1rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: right;
+  margin: 1rem;
+  cursor: pointer;
+  position: relative;
 `;
