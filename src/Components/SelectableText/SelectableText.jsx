@@ -1,41 +1,91 @@
 import PropTypes from "prop-types";
 import React from "react";
-import * as faIcons from "react-icons/fa";
-import * as styledComponents from "./SelectableText.style";
+import ChoiceButtons from "./ChoiceButtons/ChoiceButtons";
 
-const TEST_DATA = [
-  "Describe how to measure a variety of lengths.",
-  "learn how to calculate the size of the sun.",
-  "how to check if you have a life.",
-  "learn how to calculate the size of the sun.",
-  "how to check if you have a life.",
-  "learn how to calculate the size of the sun.",
-  "how to check if you have a life.",
-  "learn how to calculate the size of the sun.",
-  "how to check if you have a life.",
+import * as styledComponents from "./SelectableText.style";
+const ANOTHER_DATA = [
+  {
+    string: "Describe how to measure a variety of lengths.",
+    comment: "",
+    highlight: "",
+  },
+  {
+    string: "Describe how to measure a variety of lengths.",
+    comment: "",
+    highlight: "",
+  },
+  {
+    string: "Describe how to measure a variety of lengths.",
+    comment: "",
+    highlight: "",
+  },
+  {
+    string: "Describe how to measure a variety of lengths.",
+    comment: "",
+    highlight: "",
+  },
 ];
 
 const SelectableText = ({ data }) => {
-  const [selectedText, setSelectedText] = React.useState();
+  const [init, setInit] = React.useState(true);
+  const [active, setActive] = React.useState(false);
+  const [sentences, setSentences] = React.useState([]);
+  const [activeSentence, setActiveSentence] = React.useState({});
+  React.useEffect(() => {
+    setSentences(data);
+    setInit(false);
+  }, []);
+  React.useEffect(() => {
+    if (!init) {
+      setActive(true);
+    } else return;
+  }, [activeSentence.id]);
+  React.useEffect(() => {}, [active]);
   const { Wrapper, BuildText, BuildTextHoverEffect, StringOptions } =
     styledComponents;
-  const { FaCommentDots, FaHighlighter } = faIcons;
-  const selectStrHandler = (e) => {
-    setSelectedText(data[e.target.getAttribute("id")]);
+
+  const selectTextHandler = (e) => {
+    e.stopPropagation();
+    const component = e.target.tagName;
+    if (component === "SPAN") {
+      const selectedText = sentences[e.target.getAttribute("id")];
+      setActiveSentence({
+        ...selectedText,
+        id: parseInt(e.target.getAttribute("id")),
+      });
+      if (active) {
+        setActive(false);
+      } else setActive(true);
+    }
   };
+  const clickWrapperHandler = (e) => {
+    setActive(false);
+  };
+  const userChoiceHandler = (e) => {
+    console.log(e);
+  };
+  // what to do if empty object
   return (
-    <Wrapper>
-      {data.map((str, index) => (
-        <React.Fragment key={index}>
-          <BuildTextHoverEffect id={index} onClick={selectStrHandler}>
-            <StringOptions selectedState={selectedText}>
-              <FaHighlighter color="white" />
-              <FaCommentDots color="white" />
-            </StringOptions>
-            {index}. {str}
-          </BuildTextHoverEffect>
-        </React.Fragment>
-      ))}
+    <Wrapper onClick={clickWrapperHandler}>
+      {sentences &&
+        sentences.map((str, index) => (
+          <React.Fragment key={index}>
+            <BuildTextHoverEffect
+              onClick={selectTextHandler}
+              highlight={str.highlight}
+              id={index}
+            >
+              {index === activeSentence.id && active ? (
+                <ChoiceButtons
+                  getChoice={userChoiceHandler}
+                  index={index}
+                  sentence={sentences[index]}
+                />
+              ) : null}
+              {index}. {str.string}
+            </BuildTextHoverEffect>
+          </React.Fragment>
+        ))}
     </Wrapper>
   );
 };
@@ -45,7 +95,7 @@ SelectableText.propTypes = {
 };
 
 SelectableText.defaultProps = {
-  data: TEST_DATA,
+  data: ANOTHER_DATA,
 };
 
 export default SelectableText;
